@@ -37,21 +37,17 @@ public abstract class OrderProcessorBase
     {
         try
         {
-            // TODO: Enumerate to stable collection items here, and use for next steps
+            IReadOnlyCollection<Product> products = items.ToArray();
 
             // TODO: Logging-like nodes can be extracted to a private method-helper to un-blur the perception
             Console.WriteLine($"{GetType().Name}: Processing payment");
 
-            // TODO: Possible multiple enumeration that will lead to re-iterating the same items multiple times
-            // Sometimes might lead to unexpected behaviors & different results
-            ProcessPayment(user, items);
+            ProcessPayment(user, products);
 
             // TODO: Logging-like nodes can be extracted to a private method-helper to un-blur the perception
             Console.WriteLine($"{GetType().Name}: Generating Receipt");
 
-            // TODO: Possible multiple enumeration that will lead to re-iterating the same items multiple times
-            // Sometimes might lead to unexpected behaviors & different results
-            return GenerateReceiptAsync(user, items);
+            return GenerateReceiptAsync(user, products);
         }
         catch (Exception e)
         {
