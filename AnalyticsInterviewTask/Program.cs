@@ -39,27 +39,29 @@ public abstract class OrderProcessorBase
         {
             IReadOnlyCollection<Product> products = items.ToArray();
 
-            // TODO: Logging-like nodes can be extracted to a private method-helper to un-blur the perception
-            Console.WriteLine($"{GetType().Name}: Processing payment");
+            LogThat("Processing payment");
 
             ProcessPayment(user, products);
 
-            // TODO: Logging-like nodes can be extracted to a private method-helper to un-blur the perception
-            Console.WriteLine($"{GetType().Name}: Generating Receipt");
+            LogThat("Generating Receipt");
 
             return GenerateReceiptAsync(user, products);
         }
         catch (Exception e)
         {
-            // TODO: Logging-like nodes can be extracted to a private method-helper to un-blur the perception
-            Console.WriteLine($"{GetType().Name}: Error processing order: {e.Message}");
+            LogThat($"Error processing order: {e.Message}");
             throw;
         }
         finally
         {
-            // TODO: Logging-like nodes can be extracted to a private method-helper to un-blur the perception
-            Console.WriteLine($"{GetType().Name}: Order Processed");
+            LogThat("Order Processed");
         }
+    }
+
+    private void LogThat(string message)
+    {
+        var type = GetType().Name;
+        Console.WriteLine("{0}: {1}", type, message);
     }
 }
 
