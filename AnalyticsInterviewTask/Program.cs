@@ -41,14 +41,21 @@ public abstract class OrderProcessorBase
         try
         {
             Console.WriteLine($"{GetType().Name}: Processing payment");
+
+            // TODO: Possible multiple enumeration that will lead to re-iterating the same items multiple times
+            // Sometimes might lead to unexpected behaviors & different results
             ProcessPayment(user, items);
 
             Console.WriteLine($"{GetType().Name}: Generating Receipt");
+
+            // TODO: Possible multiple enumeration that will lead to re-iterating the same items multiple times
+            // Sometimes might lead to unexpected behaviors & different results
             return GenerateReceiptAsync(user, items);
         }
         catch (Exception e)
         {
             Console.WriteLine($"{GetType().Name}: Error processing order: {e.Message}");
+            // TODO: Straight re-throw exception it will lead to cutting off gathered information from the existing stack
             throw e;
         }
         finally
@@ -68,6 +75,8 @@ public class CashOrderProcessor : OrderProcessorBase
         user.CashBalance -= sum;
     }
 
+    // TODO: Async keyword is not needed for methods where no await pair inside.
+    // It may be replaced with a returning Task.CompletedTask
     protected override async Task GenerateReceiptAsync(User user, IEnumerable<Product> items)
     {
         Console.WriteLine($"Receipt for {user.Name}:\n{string.Join("\n", items)}\n");
