@@ -10,10 +10,9 @@ namespace Sandbox;
 
 public class User(string name, double cashBalance, double creditCardBalance)
 {
-    // TODO: Violation of coding style convention: use property instead of field
-    public string Name = name;
-    public double CashBalance = cashBalance;
-    public double CreditCardBalance = creditCardBalance;
+    public string Name { get; } = name;
+    public double CashBalance { get; set; } = cashBalance;
+    public double CreditCardBalance { get; set; } = creditCardBalance;
 
     public override string ToString() =>
         $"Name: {Name}; CashBalance: {CashBalance:N2}; CreditCardBalance: {CreditCardBalance:N2}";
@@ -21,10 +20,8 @@ public class User(string name, double cashBalance, double creditCardBalance)
 
 public class Product(string name, double price)
 {
-    // TODO: Violation of coding style convention: use property instead of field
-    public string Name = name;
-    // TODO: Violation of coding style convention: use property instead of field
-    public double Price = price;
+    public string Name { get; } = name;
+    public double Price { get; } = price;
 
     public override string ToString() =>
         $"Name: {Name}; Price: {Price:N2}";
@@ -35,13 +32,13 @@ public abstract class OrderProcessorBase
     protected abstract void ProcessPayment(User user, IEnumerable<Product> items);
 
     protected abstract Task GenerateReceiptAsync(User user, IEnumerable<Product> items);
-    
+
     public Task ProcessAsync(User user, IEnumerable<Product> items)
     {
         try
         {
             // TODO: Enumerate to stable collection items here, and use for next steps
-            
+
             // TODO: Logging-like nodes can be extracted to a private method-helper to un-blur the perception
             Console.WriteLine($"{GetType().Name}: Processing payment");
 
