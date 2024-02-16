@@ -11,6 +11,10 @@ namespace Sandbox;
 public class User(string name, double cashBalance, double creditCardBalance)
 {
     public string Name { get; } = name;
+    
+    // TODO: Maybe it is also good considering (if design allows) to define a collection of all possible ways how to pay
+    // So then we can easily extend it instead of adding new props -> adding new types into collection
+    // It can also provide experience with mixed payments
     public double CashBalance { get; set; } = cashBalance;
     public double CreditCardBalance { get; set; } = creditCardBalance;
 
