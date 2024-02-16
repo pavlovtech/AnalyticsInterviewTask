@@ -35,17 +35,21 @@ public abstract class OrderProcessorBase
     protected abstract void ProcessPayment(User user, IEnumerable<Product> items);
 
     protected abstract Task GenerateReceiptAsync(User user, IEnumerable<Product> items);
-
+    
     public Task ProcessAsync(User user, IEnumerable<Product> items)
     {
         try
         {
+            // TODO: Enumerate to stable collection items here, and use for next steps
+            
+            // TODO: Logging-like nodes can be extracted to a private method-helper to un-blur the perception
             Console.WriteLine($"{GetType().Name}: Processing payment");
 
             // TODO: Possible multiple enumeration that will lead to re-iterating the same items multiple times
             // Sometimes might lead to unexpected behaviors & different results
             ProcessPayment(user, items);
 
+            // TODO: Logging-like nodes can be extracted to a private method-helper to un-blur the perception
             Console.WriteLine($"{GetType().Name}: Generating Receipt");
 
             // TODO: Possible multiple enumeration that will lead to re-iterating the same items multiple times
@@ -54,12 +58,14 @@ public abstract class OrderProcessorBase
         }
         catch (Exception e)
         {
+            // TODO: Logging-like nodes can be extracted to a private method-helper to un-blur the perception
             Console.WriteLine($"{GetType().Name}: Error processing order: {e.Message}");
             // TODO: Straight re-throw exception it will lead to cutting off gathered information from the existing stack
             throw e;
         }
         finally
         {
+            // TODO: Logging-like nodes can be extracted to a private method-helper to un-blur the perception
             Console.WriteLine($"{GetType().Name}: Order Processed");
         }
     }
@@ -69,6 +75,8 @@ public class CashOrderProcessor : OrderProcessorBase
 {
     protected override void ProcessPayment(User user, IEnumerable<Product> items)
     {
+        // TODO: It might a be good idea also to extract items' sum calculation into specific Calculator
+        // It may help in separating responsibilities & removing duplicating code
         var sum = items.Sum(p => p.Price);
         if (user.CashBalance < sum) throw new ApplicationException("Insufficient Cash funds");
 
@@ -87,6 +95,8 @@ public class CreditCardOrderProcessor : OrderProcessorBase
 {
     protected override void ProcessPayment(User user, IEnumerable<Product> items)
     {
+        // TODO: It might be a good idea also to extract items' sum calculation into specific Calculator
+        // It may help in separating responsibilities & removing duplicating code
         user.CreditCardBalance -= items.Sum(p => p.Price);
     }
 
