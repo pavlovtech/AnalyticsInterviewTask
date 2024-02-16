@@ -77,11 +77,10 @@ public class CashOrderProcessor : OrderProcessorBase
         user.CashBalance -= sum;
     }
 
-    // TODO: Async keyword is not needed for methods where no await pair inside.
-    // It may be replaced with a returning Task.CompletedTask
-    protected override async Task GenerateReceiptAsync(User user, IEnumerable<Product> items)
+    protected override Task GenerateReceiptAsync(User user, IEnumerable<Product> items)
     {
         Console.WriteLine($"Receipt for {user.Name}:\n{string.Join("\n", items)}\n");
+        return Task.CompletedTask;
     }
 }
 
