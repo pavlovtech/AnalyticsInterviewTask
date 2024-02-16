@@ -1,4 +1,6 @@
-﻿namespace Sandbox;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Sandbox;
 
 // Tasks
 // 1. Review code & explain what it does
@@ -83,15 +85,23 @@ public class CreditCardOrderProcessor : OrderProcessorBase
     }
 }
 
+/// <summary>
+/// I assume this part of the code is not allowed to change. <br />
+/// *Considering it is client-side code we have no power to change
+/// </summary>
 public static class Program
 {
     public static IEnumerable<Product> GetCartProducts()
     {
         yield return new("Laptop", 800);
         throw new ApplicationException("Product is out of stock");
+#pragma warning disable CS0162 // Unreachable code detected
+        // ReSharper disable once HeuristicUnreachableCode
         yield return new("Smartphone", 700);
+#pragma warning restore CS0162 // Unreachable code detected
     }
 
+    [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
     public static async Task Main()
     {
         Console.WriteLine("Starting Application");
