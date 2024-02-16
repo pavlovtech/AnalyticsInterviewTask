@@ -53,8 +53,7 @@ public abstract class OrderProcessorBase
         {
             // TODO: Logging-like nodes can be extracted to a private method-helper to un-blur the perception
             Console.WriteLine($"{GetType().Name}: Error processing order: {e.Message}");
-            // TODO: Straight re-throw exception it will lead to cutting off gathered information from the existing stack
-            throw e;
+            throw;
         }
         finally
         {
