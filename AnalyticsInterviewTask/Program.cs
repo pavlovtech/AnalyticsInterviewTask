@@ -10,6 +10,7 @@ namespace Sandbox;
 
 public class User(string name, double cashBalance, double creditCardBalance)
 {
+    // TODO: Violation of coding style convention: use property instead of field
     public string Name = name;
     public double CashBalance = cashBalance;
     public double CreditCardBalance = creditCardBalance;
@@ -20,7 +21,9 @@ public class User(string name, double cashBalance, double creditCardBalance)
 
 public class Product(string name, double price)
 {
+    // TODO: Violation of coding style convention: use property instead of field
     public string Name = name;
+    // TODO: Violation of coding style convention: use property instead of field
     public double Price = price;
 
     public override string ToString() =>
