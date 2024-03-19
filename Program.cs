@@ -1,30 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿namespace AnalyticsInterviewTask;
 
-namespace Sandbox;
+// Tasks:
+// 1. Review the code below & explain what it does
+// 2. Identify and explain issues, propose improvements
+// 3. Agree on few improvements with interviewers, implement those
 
-// Tasks
-// 1. Review code & explain what it does
-// 2. Identify issues
-// 3. Propose improvements
-// 4. Agree an improvements with interviewer and implement those
-
-public class User(string name, double cashBalance, double creditCardBalance)
+public class User
 {
-    public string Name = name;
-    public double CashBalance = cashBalance;
-    public double CreditCardBalance = creditCardBalance;
+    public string Name;
+    public double CashBalance;
+    public double CreditCardBalance;
+
+    public User(string name, double cashBalance, double creditCardBalance)
+    {
+        Name = name;
+        CashBalance = cashBalance;
+        CreditCardBalance = creditCardBalance;
+    }
 
     public override string ToString() =>
         $"Name: {Name}; CashBalance: {CashBalance:N2}; CreditCardBalance: {CreditCardBalance:N2}";
 }
 
-public class Product(string name, double price)
+public class Product
 {
-    public string Name = name;
-    public double Price = price;
+    public string Name;
+    public double Price;
+
+    public Product(string name, double price)
+    {
+        Name = name;
+        Price = price;
+    }
 
     public override string ToString() =>
         $"Name: {Name}; Price: {Price:N2}";
@@ -40,7 +47,7 @@ public abstract class OrderProcessorBase
     {
         try
         {
-            Console.WriteLine($"{GetType().Name}: Processing payment");
+            Console.WriteLine($"{GetType().Name}: Processing Payment");
             ProcessPayment(user, items);
 
             Console.WriteLine($"{GetType().Name}: Generating Receipt");
@@ -49,11 +56,11 @@ public abstract class OrderProcessorBase
         catch (Exception e)
         {
             Console.WriteLine($"{GetType().Name}: Error processing order: {e.Message}");
-            throw e;
+            throw;
         }
         finally
         {
-            Console.WriteLine($"{GetType().Name}: Order Processed");
+            Console.WriteLine($"{GetType().Name}: Order Processing Finished");
         }
     }
 }
@@ -63,14 +70,16 @@ public class CashOrderProcessor : OrderProcessorBase
     protected override void ProcessPayment(User user, IEnumerable<Product> items)
     {
         var sum = items.Sum(p => p.Price);
-        if (user.CashBalance < sum) throw new ApplicationException("Insufficient Cash funds");
+        if (user.CashBalance < sum)
+            throw new ApplicationException("Insufficient Cash funds");
 
         user.CashBalance -= sum;
     }
 
-    protected override async Task GenerateReceiptAsync(User user, IEnumerable<Product> items)
+    protected override Task GenerateReceiptAsync(User user, IEnumerable<Product> items)
     {
         Console.WriteLine($"Receipt for {user.Name}:\n{string.Join("\n", items)}\n");
+        return Task.CompletedTask;
     }
 }
 
@@ -84,7 +93,7 @@ public class CreditCardOrderProcessor : OrderProcessorBase
     protected override async Task GenerateReceiptAsync(User user, IEnumerable<Product> items)
     {
         await Task.Delay(1000);
-        throw new ApplicationException("Error generating receipt");
+        ////throw new ApplicationException("Error generating receipt");
     }
 }
 
@@ -93,7 +102,7 @@ public static class Program
     public static IEnumerable<Product> GetCartProducts()
     {
         yield return new("Laptop", 800);
-        throw new ApplicationException("Product is out of stock");
+        ////throw new ApplicationException("Product is out of stock");
         yield return new("Smartphone", 700);
     }
 
